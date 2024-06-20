@@ -58,9 +58,9 @@ The material can be one of the following:
   * `Dichroic mirror`: Reflects beams of certain wavelengths and transmits the others. You can set a rule which wavelengths (in nm) to transmit in the form `380<wavelength<750` for the visible light.
   * `Beam dump`: absorbs all incoming beams. Element can be a closed or open shape.
   * `Beam splitter`: for each incoming beam, produces one transmitted beam and one reflected beam. Element can be a closed or open shape, but closed shape will cause the number of beams to increase exponentially.
-  * `Glass`: with optical index. Transmits and bends a beam depending on its optical index. **Element must be a closed shape**.
+  * `Glass`: with optical index and dispersion factor. Transmits and bends a beam depending on its optical index. **Element must be a closed shape**.
 
-This will automatically write some text in the element description. This text is used to reccord the properties of the elements. It is also possible to directly write the text in the description.
+This will automatically write some text in the element description. This text is used to record the properties of the elements. It is also possible to directly write the text in the description.
   
 An element can have at most one optical property and will be ignored if it has two or more.
 

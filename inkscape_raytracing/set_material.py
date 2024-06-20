@@ -33,6 +33,7 @@ class SetMaterial(inkex.Effect):
             help="Name of the optical material to convert the selection to.",
         )
         pars.add_argument("--optical_index", type=float, default=1.5168)
+        pars.add_argument("--dispersion", type=float, default=0)
         pars.add_argument("--wavelength", type=float, default=0)
         pars.add_argument("--dichroic_reflection", type=str)
 
@@ -79,7 +80,7 @@ class SetMaterial(inkex.Effect):
             if material_name is not None:
                 new_desc += f"optics:{material_name}"
                 if material_name == "glass":
-                    new_desc += f":{self.options.optical_index:.4f}"
+                    new_desc += f":{self.options.optical_index:.4f}:dispersion{self.options.dispersion:.4f}"
                 elif material_name == "dichroic_mirror":
                     new_desc += f":e{self.options.dichroic_reflection}"
                 elif material_name == "beam":

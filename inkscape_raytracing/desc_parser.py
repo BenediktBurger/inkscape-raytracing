@@ -4,7 +4,7 @@ rgx_float = r"[-+]?(\d+([.,]\d*)?|[.,]\d+)([eE][-+]?\d+)?"
 rgx_eval = r"e(\d+<)?wavelength(<\d+)?"
 rgx_name = "[a-z,_]*"
 optics_pattern = re.compile(
-    f"optics *: *(?P<material>{rgx_name})(: *(?P<num>{rgx_float}))?(: *(?P<eval>{rgx_eval}))?",
+    f"optics *: *(?P<material>{rgx_name})(: *(?P<num>{rgx_float}))?(: *(?P<eval>{rgx_eval}))?(:dispersion(?P<dispersion>{rgx_float}))?",
     re.IGNORECASE | re.MULTILINE,
 )
 

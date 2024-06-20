@@ -217,10 +217,11 @@ def get_materials_from_description(
         material_type = match.group("material")
         prop_str = match.group("num")
         eval_str = match.group("eval")
+        dispersion_str = match.group("dispersion")
         if material_type in class_alias:
-            if material_type == "glass" and prop_str is not None:
+            if material_type == "glass" and prop_str is not None and dispersion_str is not None:
                 optical_index = float(prop_str)
-                materials.append(class_alias[material_type](optical_index))
+                materials.append(class_alias[material_type](optical_index, dispersion=float(dispersion_str)))
             elif material_type == "beam" and prop_str is not None:
                 wl = float(prop_str)
                 materials.append(class_alias[material_type](wavelength=wl))
