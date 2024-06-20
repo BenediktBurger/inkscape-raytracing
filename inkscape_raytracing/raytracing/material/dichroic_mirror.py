@@ -24,7 +24,7 @@ class DichroicMirror(OpticMaterial):
         if reflect:
             o, d = shade.local_hit_point, ray.direction
             n = shade.normal
-            reflected_ray = Ray(o, d - 2 * numpy.dot(d, n) * n)
+            reflected_ray = Ray(o, d - 2 * numpy.dot(d, n) * n, wavelength=wavelength)
             return [reflected_ray]
         else:
-            return [Ray(shade.local_hit_point, direction=ray.direction)]
+            return [Ray(shade.local_hit_point, direction=ray.direction, wavelength=wavelength)]

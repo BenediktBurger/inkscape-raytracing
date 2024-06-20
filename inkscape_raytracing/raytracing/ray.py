@@ -10,8 +10,8 @@ class Ray:
 
     origin: Vector
     direction: UnitVector
+    wavelength: float
     travel: float = 0
-    wavelength: float = 0
 
     # If a beam hits an object before having traveled a minimum distance
     # from its origin, the collision is ignored. This prevents infinite

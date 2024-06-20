@@ -31,9 +31,9 @@ class Glass(OpticMaterial):
         c1 = -np.dot(d, n)
         u = 1 - r ** 2 * (1 - c1 ** 2)
         if u < 0:  # total internal reflection
-            reflected_ray = Ray(o, d - 2 * np.dot(d, n) * n)
+            reflected_ray = Ray(o, d - 2 * np.dot(d, n) * n, wavelength=ray.wavelength)
             return [reflected_ray]
         else:  # refraction
             c2 = np.sqrt(u)
-            transmitted_ray = Ray(o, r * d + (r * c1 - c2) * n)
+            transmitted_ray = Ray(o, r * d + (r * c1 - c2) * n, wavelength=ray.wavelength)
             return [transmitted_ray]

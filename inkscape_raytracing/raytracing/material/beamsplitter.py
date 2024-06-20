@@ -19,6 +19,6 @@ class BeamSplitter(OpticMaterial):
     def generated_beams(self, ray: Ray, shade: ShadeRec) -> List[Ray]:
         o, d = shade.local_hit_point, ray.direction
         n = shade.normal
-        reflected_ray = Ray(o, d - 2 * np.dot(d, n) * n)
-        transmitted_ray = Ray(o, d)
+        reflected_ray = Ray(o, d - 2 * np.dot(d, n) * n, wavelength=ray.wavelength)
+        transmitted_ray = Ray(o, d, wavelength=ray.wavelength)
         return [reflected_ray, transmitted_ray]

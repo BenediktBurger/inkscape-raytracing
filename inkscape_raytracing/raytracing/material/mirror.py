@@ -16,5 +16,5 @@ class Mirror(OpticMaterial):
     def generated_beams(self, ray: Ray, shade: ShadeRec) -> List[Ray]:
         o, d = shade.local_hit_point, ray.direction
         n = shade.normal
-        reflected_ray = Ray(o, d - 2 * numpy.dot(d, n) * n)
+        reflected_ray = Ray(o, d - 2 * numpy.dot(d, n) * n, wavelength=ray.wavelength)
         return [reflected_ray]

@@ -21,7 +21,7 @@ class OpticalObject(NamedTuple):
 
 class Tip(NamedTuple):
     beam: Ray
-    rays: List
+    rays: List[Ray]
 
 
 @dataclass
@@ -59,9 +59,9 @@ class World:
                 material = obj.material
         return result, material
 
-    def propagate_beams(self, seed):
+    def propagate_beams(self, seed: Ray) -> List[List[Ray]]:
         initial_beam = []
-        beams = [initial_beam]
+        beams: List[List[Ray]] = [initial_beam]
         tips = [Tip(seed, initial_beam)]
         while len(tips):
             tip = tips.pop(0)
@@ -76,13 +76,12 @@ class World:
             else:
                 shade, material = self.first_hit(tip.beam)
                 new_seeds = material.generated_beams(tip.beam, shade)
-                ray = Ray(tip.beam.origin, tip.beam.direction, shade.travel_dist)
+                ray = Ray(origin=tip.beam.origin, direction=tip.beam.direction, travel=shade.travel_dist, wavelength=seed.wavelength)
                 tip.rays.append(ray)
                 rays = [tip.rays] if len(new_seeds) == 1 else [tip.rays, *[[*tip.rays] for i in range(len(new_seeds)-1)]]
                 for index, seed in enumerate(new_seeds):
                     tips.append(Tip(seed, rays[index]))
                 rays.pop(0)
-                for r in rays:
-                    beams.append(r)
+                beams.extend(rays)
 
         return beams
