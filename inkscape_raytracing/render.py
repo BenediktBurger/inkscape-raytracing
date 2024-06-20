@@ -16,6 +16,7 @@ from raytracing import Vector
 from raytracing import World, OpticalObject, Ray
 from raytracing.geometry import CubicBezier, CompoundGeometricObject
 from raytracing.geometry import GeometricObject
+import raytracing.material.dichroic_mirror
 from utils import pairwise
 
 
@@ -23,6 +24,7 @@ from utils import pairwise
 class BeamSeed:
     ray: Optional[Ray] = None
     parent: Optional[inkex.ShapeElement] = None
+    wavelength: float = 0
 
 
 def get_unlinked_copy(clone: inkex.Use) -> Optional[inkex.ShapeElement]:
@@ -132,7 +134,7 @@ class Raytracing(inkex.EffectExtension):
             material = get_material(obj)
             if material:
                 if isinstance(material, BeamSeed):
-                    for ray in get_beams(obj):
+                    for ray in get_beams(obj, wavelength=material.wavelength):
                         self.beam_seeds.append(BeamSeed(ray, parent=obj))
                 else:
                     geometry = get_geometry(obj)
@@ -206,6 +208,7 @@ def get_materials_from_description(
     class_alias = dict(
         beam_dump=raytracing.material.BeamDump,
         mirror=raytracing.material.Mirror,
+        dichroic_mirror=raytracing.material.dichroic_mirror.DichroicMirror,
         beam_splitter=raytracing.material.BeamSplitter,
         glass=raytracing.material.Glass,
         beam=BeamSeed,
@@ -213,10 +216,16 @@ def get_materials_from_description(
     for match in get_optics_fields(desc):
         material_type = match.group("material")
         prop_str = match.group("num")
+        eval_str = match.group("eval")
         if material_type in class_alias:
             if material_type == "glass" and prop_str is not None:
                 optical_index = float(prop_str)
                 materials.append(class_alias[material_type](optical_index))
+            elif material_type == "beam" and prop_str is not None:
+                wl = float(prop_str)
+                materials.append(class_alias[material_type](wavelength=wl))
+            elif material_type == "dichroic_mirror" and eval_str is not None:
+                materials.append(class_alias[material_type](eval_str))
             else:
                 materials.append(class_alias[material_type]())
     return materials
@@ -250,7 +259,7 @@ def get_absolute_path(obj: inkex.ShapeElement) -> inkex.CubicSuperPath:
     return transformed_path.to_superpath()
 
 
-def get_beams(element: inkex.ShapeElement) -> Iterable[Ray]:
+def get_beams(element: inkex.ShapeElement, wavelength: float = 0) -> Iterable[Ray]:
     """
     Returns a beam with origin at the endpoint of the path and tangent to
     the path
@@ -260,7 +269,7 @@ def get_beams(element: inkex.ShapeElement) -> Iterable[Ray]:
         last_segment = sub_path[-1]
         endpoint = last_segment.eval(1)
         tangent = -last_segment.tangent(1)
-        yield Ray(endpoint, tangent)
+        yield Ray(endpoint, tangent, wavelength=wavelength)
 
 
 def convert_to_composite_bezier(

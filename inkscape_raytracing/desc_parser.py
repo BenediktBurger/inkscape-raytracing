@@ -1,9 +1,10 @@
 import re
 
 rgx_float = r"[-+]?(\d+([.,]\d*)?|[.,]\d+)([eE][-+]?\d+)?"
+rgx_eval = r"e(\d+<)?wavelength(<\d+)?"
 rgx_name = "[a-z,_]*"
 optics_pattern = re.compile(
-    f"optics *: *(?P<material>{rgx_name})(: *(?P<num>{rgx_float}))?",
+    f"optics *: *(?P<material>{rgx_name})(: *(?P<num>{rgx_float}))?(: *(?P<eval>{rgx_eval}))?",
     re.IGNORECASE | re.MULTILINE,
 )
 

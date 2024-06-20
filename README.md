@@ -53,8 +53,9 @@ If the version of python used by Inkscape doesn't satisfy the requirement, the i
 
 The material can be one of the following:
 
-  * `Beam`: source of the ray. Need at least one element with this property to see an effect. Typically the element should be a straight line.
+  * `Beam`: source of the ray with a certain wavelength. Need at least one element with this property to see an effect. Typically the element should be a straight line.
   * `Mirror`: reflects an incoming beam. Element can be a closed or open shape.
+  * `Dichroic mirror`: Reflects beams of certain wavelengths and transmits the others. You can set a rule which wavelengths (in nm) to transmit in the form `380<wavelength<750` for the visible light.
   * `Beam dump`: absorbs all incoming beams. Element can be a closed or open shape.
   * `Beam splitter`: for each incoming beam, produces one transmitted beam and one reflected beam. Element can be a closed or open shape, but closed shape will cause the number of beams to increase exponentially.
   * `Glass`: with optical index. Transmits and bends a beam depending on its optical index. **Element must be a closed shape**.

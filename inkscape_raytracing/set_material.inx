@@ -16,9 +16,18 @@
         <option name="none">None</option>
         <option name="beam">Beam</option>
         <option name="mirror">Mirror</option>
+        <option name="dichroic_mirror">Dichroic mirror</option>
         <option name="beam_dump">Beam dump</option>
         <option name="beam_splitter">Beam splitter</option>
         <option name="glass">Glass</option>
     </param>
-    <param name="optical_index" type="float" min="1." max="5." precision="4" gui-text="Optical index:" indent="2">1.5168</param>
+    <param name="optical_index" type="float" min="1." max="5." precision="4" gui-text="Optical index:" indent="0">
+        1.5168
+    </param>
+    <param name="wavelength" type="float" min="1.0" max="20000." precision="1" gui-text="Beam wavelength in nm:">
+        532
+    </param>
+    <param name="dichroic_reflection" type="string" gui-text="Condition for reflection:">
+        wavelength
+    </param>
 </inkscape-extension>
