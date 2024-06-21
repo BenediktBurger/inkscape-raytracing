@@ -24,7 +24,7 @@ from utils import pairwise
 class BeamSeed:
     ray: Optional[Ray] = None
     parent: Optional[inkex.ShapeElement] = None
-    wavelength: float = 0
+    wavelength: float = 500
 
 
 def get_unlinked_copy(clone: inkex.Use) -> Optional[inkex.ShapeElement]:
@@ -219,9 +219,10 @@ def get_materials_from_description(
         eval_str = match.group("eval")
         dispersion_str = match.group("dispersion")
         if material_type in class_alias:
-            if material_type == "glass" and prop_str is not None and dispersion_str is not None:
+            if material_type == "glass" and prop_str is not None:
                 optical_index = float(prop_str)
-                materials.append(class_alias[material_type](optical_index, dispersion=float(dispersion_str)))
+                dispersion = 0 if dispersion_str is None else float(dispersion_str)
+                materials.append(class_alias[material_type](optical_index, dispersion=dispersion))
             elif material_type == "beam" and prop_str is not None:
                 wl = float(prop_str)
                 materials.append(class_alias[material_type](wavelength=wl))
