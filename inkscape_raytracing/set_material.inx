@@ -21,7 +21,7 @@
         <option name="beam_splitter">Beam splitter</option>
         <option name="glass">Glass</option>
     </param>
-    <param name="optical_index (500 nm)" type="float" min="1." max="5." precision="4" gui-text="Optical index:" indent="0">
+    <param name="optical_index" type="float" min="1." max="5." precision="4" gui-text="Optical index (500 nm):" indent="0">
         1.5168
     </param>
     <param name="dispersion" type="float" min="0." max="5" precision="4" gui-text="Optical index difference per 1000 nm">
